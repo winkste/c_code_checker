@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" C Code Checker main module.
+""" Command Line Interface Handler.
 
 Longer description of this module.
 
@@ -33,39 +33,21 @@ __version__ = "0.0.1"
 ################################################################################
 # Imports
 import logging
-from cmd_line.cli_handler import parse_command_line
-from test_cases.test_manager import get_test_cases_for_file_list
-#from test_cases.gen_test_case import GenTestCase
-from msg_hdl.message_factory import create_message_handler
-from msg_hdl.gen_msg_hdl import GenericMsgHdl
-
 
 ################################################################################
 # Variables
 
 ################################################################################
 # Functions
-def ccs_main():
-    """Main function of the C Code Checker program
+def parse_command_line():
+    """Parses the command line
+
     """
+    files_to_parse = []
+    parameter_file = []
 
-    # check commandline parameter, parameter:
-    # single c file or path to files, path to xml config for tests
-    files_to_parse:str = None
-    parameter_file:str = None
-    files_to_parse, parameter_file = parse_command_line()
-
-    # create the output message handler
-    msg_hdl:GenericMsgHdl = create_message_handler()
-
-    # create test manager with help of parameter file and message handler
-    test_matrix:dict = get_test_cases_for_file_list(files_to_parse, parameter_file)
-
-
-    # start processing the c file / files
-    for file, test_case_list in test_matrix.items():
-        for single_test_case in test_case_list:
-            single_test_case.test_case_func(file, msg_hdl)
+    logging.debug('cli parsed')
+    return files_to_parse, parameter_file
 
 ################################################################################
 # Classes
@@ -74,7 +56,6 @@ def ccs_main():
 # Scripts
 if __name__ == "__main__":
     # execute only if run as a script
-    print('--- C Code Checker ---')
-    MSG_FORMAT = "%(asctime)s - %(filename)s/%(funcName)s(%(lineno)d) - %(levelname)s - %(message)s"
-    logging.basicConfig(level=logging.DEBUG, format=MSG_FORMAT)
-    ccs_main()
+    print('--- any module script ---')
+    logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(filename)s/%(funcName)s(%(lineno)d) - %(levelname)s - %(message)s")
+    parse_command_line()

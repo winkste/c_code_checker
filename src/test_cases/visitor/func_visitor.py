@@ -1,5 +1,5 @@
 from pycparser import c_ast
-from src.declarations.func_decl import FuncDecl
+from src.test_cases.declarations.func_decl import FuncDecl
 
 class FuncDeclVisitor(c_ast.NodeVisitor):
     """Visitor class for function declarations
@@ -30,7 +30,7 @@ class FuncDeclVisitor(c_ast.NodeVisitor):
                 node_type = node_type.type
             func_type = func_type + node_type.names
 
-            func_decl = FuncDecl(func_name, func_coord, func_type, func_storage)
+            func_decl = FuncDecl(func_name, func_coord, func_type, func_storage, node)
             self.func_decl[func_coord] = func_decl
 
             print(f"Func Name: {func_name} at {func_coord} with range: {func_storage} of type: {func_type} ")

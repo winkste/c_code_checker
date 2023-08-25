@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" C Code Checker main module.
+""" This module defines the generic test case interface.
 
 Longer description of this module.
 
@@ -33,10 +33,7 @@ __version__ = "0.0.1"
 ################################################################################
 # Imports
 import logging
-from cmd_line.cli_handler import parse_command_line
-from test_cases.test_manager import get_test_cases_for_file_list
-#from test_cases.gen_test_case import GenTestCase
-from msg_hdl.message_factory import create_message_handler
+
 from msg_hdl.gen_msg_hdl import GenericMsgHdl
 
 
@@ -45,36 +42,43 @@ from msg_hdl.gen_msg_hdl import GenericMsgHdl
 
 ################################################################################
 # Functions
-def ccs_main():
-    """Main function of the C Code Checker program
-    """
-
-    # check commandline parameter, parameter:
-    # single c file or path to files, path to xml config for tests
-    files_to_parse:str = None
-    parameter_file:str = None
-    files_to_parse, parameter_file = parse_command_line()
-
-    # create the output message handler
-    msg_hdl:GenericMsgHdl = create_message_handler()
-
-    # create test manager with help of parameter file and message handler
-    test_matrix:dict = get_test_cases_for_file_list(files_to_parse, parameter_file)
-
-
-    # start processing the c file / files
-    for file, test_case_list in test_matrix.items():
-        for single_test_case in test_case_list:
-            single_test_case.test_case_func(file, msg_hdl)
 
 ################################################################################
 # Classes
+class GenTestCase:
+    """Generic Test Case Class to derive all test cases from
+    """
+
+
+    ############################################################################
+    # Member Functions
+
+    def __init__(self, name = "GenTestCase"):
+        self.obj_name = name
+
+    def get_object_name(self):
+        """Returns the object name
+
+        Return
+        ------
+        str : Name of the object
+        """
+        return self.obj_name
+
+    def test_case_func(self, file_name:str, msg_handler:GenericMsgHdl):
+        """This function represents the implementation of a test case
+
+        Args:
+            file_name (str): name of file to test
+            msg_handler (GenericMsgHdl): message handling, e.g. GCC format handler
+        """
+
+        logging.debug("File to parse %s", file_name)
+        msg_handler.print_message("any message", file_name, "ERROR")
+
 
 ################################################################################
 # Scripts
 if __name__ == "__main__":
     # execute only if run as a script
-    print('--- C Code Checker ---')
-    MSG_FORMAT = "%(asctime)s - %(filename)s/%(funcName)s(%(lineno)d) - %(levelname)s - %(message)s"
-    logging.basicConfig(level=logging.DEBUG, format=MSG_FORMAT)
-    ccs_main()
+    print('--- any module script ---')
