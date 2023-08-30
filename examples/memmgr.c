@@ -31,6 +31,13 @@ static mem_header_t base;
 */
 static mem_header_t* freep = 0;
 
+#define MACRO_TEST(var) typeof(var)*2
+
+#define VALUE_1 15
+
+static int varTest = DEF_WHATTTTTTTTTTT;
+int varTest2 = 10;
+
 /* Static pool for new allocations
 */
 static byte pool[POOL_SIZE] = {0};
